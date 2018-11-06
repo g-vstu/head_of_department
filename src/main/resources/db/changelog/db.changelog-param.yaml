@@ -1,0 +1,35 @@
+databaseChangeLog:
+- changeSet:
+    id: create_param_table
+    author: maksim.hlushneu@gmail.com
+    changes:
+    - createTable:
+        tableName: param
+        columns:
+        - column:
+            name: p_id
+            type: UUID
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: pk_param
+        - column:
+            name: p_name
+            type: varchar(100)
+            constraints:
+              nullable: false
+        - column:
+            name: pg_id
+            type: UUID
+            constraints:
+              nullable: false
+    - addForeignKeyConstraint:
+        baseColumnNames: pg_id
+        baseTableName: param
+        constraintName: fk_param_param_group
+        referencedColumnNames: pg_id
+        referencedTableName: param_group
+    - addUniqueConstraint:
+        columnNames: p_name,pg_id
+        constraintName: uc_param_p_name_pg_id
+        tableName: param
