@@ -26,7 +26,7 @@ public class StubService {
                 employees.add(new ExportEmployeeDTO("Репнев В.В.", "ст. преп.", "14"));
                 break;
             default:
-                employees.add(new ExportEmployeeDTO("head department", "ГЛАВА", "HEAD_TABEL"));
+                employees.add(new ExportEmployeeDTO("head department", "ГЛАВА", "012351"));
                 break;
         }
         return employees;
