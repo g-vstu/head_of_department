@@ -1,14 +1,14 @@
 package by.vstu.department.model;
 
 import by.vstu.department.model.enums.ParameterGroupType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "param_group")
 @AttributeOverride(name = "id", column = @Column(name = "pg_id"))

@@ -1,25 +1,27 @@
 package by.vstu.department.model;
 
 import by.vstu.department.model.enums.AnketaParameterStatusType;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @RequiredArgsConstructor
 @Table(name = "emp_param")
-@AttributeOverride(name = "id", column = @Column(name = "emp_id"))
+@AttributeOverride(name = "id", column = @Column(name = "emp_param_id"))
 public class EmployeeParameter extends PersistentEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "a_id")
     private Anketa anketa;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "p_id")
     private Parameter parameter;
 

@@ -5,7 +5,7 @@ spring:
     password: postgres
     username: postgres
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/dbauth?currentSchema=department
+    url: jdbc:postgresql://localhost:5432/department
   cloud:
     config:
       uri: http://localhost:8000

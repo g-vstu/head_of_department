@@ -1,18 +1,16 @@
 package by.vstu.department.controller;
 
+import by.vstu.department.dto.AnketaDTO;
 import by.vstu.department.dto.EmployeeDTO;
+import by.vstu.department.dto.EmployeeParameterDTO;
 import by.vstu.department.exception.BusinessException;
-import by.vstu.department.model.Anketa;
 import by.vstu.department.service.AnketaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,12 +30,17 @@ public class AnketaController {
     }
 
     @GetMapping("/{id}")
-    public Anketa getAnketa(@PathVariable UUID id) {
+    public AnketaDTO getAnketa(@PathVariable Long id) {
         return anketaService.get(id);
     }
 
     @GetMapping("/employee/{tabel}")
-    public Anketa getAnketaByTabel(@PathVariable String tabel) {
+    public AnketaDTO getAnketaByTabel(@PathVariable String tabel) {
         return anketaService.getByTabel(tabel);
+    }
+
+    @PutMapping("/{id}")
+    public AnketaDTO updateAnketa(@PathVariable Long id, @RequestBody @Valid List<EmployeeParameterDTO> parameters) {
+        return anketaService.updateAnketa(id, parameters);
     }
 }

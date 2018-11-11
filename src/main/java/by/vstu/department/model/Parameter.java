@@ -1,13 +1,14 @@
 package by.vstu.department.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "param")
 @AttributeOverride(name = "id", column = @Column(name = "p_id"))
@@ -17,7 +18,10 @@ public class Parameter extends PersistentEntity {
     @Column(name = "p_name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "pg_id")
     private ParameterGroup group;
+
+    @OneToMany(mappedBy = "parameter")
+    Set<EmployeeParameter> ankets;
 }
