@@ -15,7 +15,7 @@ databaseChangeLog:
               primaryKeyName: pk_param
         - column:
             name: p_name
-            type: varchar(250)
+            type: varchar(400)
             constraints:
               nullable: false
         - column:

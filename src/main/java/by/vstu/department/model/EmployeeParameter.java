@@ -34,6 +34,10 @@ public class EmployeeParameter extends PersistentEntity {
     private Long count;
 
     @NotNull
+    @Column(name = "emp_mark")
+    private Long mark;
+
+    @NotNull
     @Column(name = "emp_created")
     private LocalDateTime created;
 }

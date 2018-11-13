@@ -26,7 +26,7 @@ public class ParameterGroupController {
     }
 
     @GetMapping("/{type}")
-    public List<ParameterGroupDTO> findByType(@PathVariable ParameterGroupType type) {
-        return service.findByType(type);
+    public List<ParameterGroupDTO> findByType(@PathVariable String type) {
+        return service.findByType(ParameterGroupType.valueOf(type));
     }
 }

@@ -34,6 +34,11 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
+            name: emp_mark
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
             name: emp_created
             type: TIMESTAMP WITHOUT TIME ZONE
             constraints:

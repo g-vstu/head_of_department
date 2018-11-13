@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class EmployeeDTO {
 
+    private Long anketaId;
+
     private String fio;
 
     private String position;

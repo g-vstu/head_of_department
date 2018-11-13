@@ -48,11 +48,12 @@ public class AnketaService {
             EmployeeDTO employee = new EmployeeDTO(exportEmployee);
             Anketa anketa = repository.findByTabel(exportEmployee.getTabel()).orElse(null);
             if (Objects.isNull(anketa)) {
-                createDefault(exportEmployee.getTabel());
+                anketa = createDefault(exportEmployee.getTabel());
                 employee.setStatus(AnketaParameterStatusType.NOT_FILLED);
             } else {
                 employee.setStatus(anketa.getStatus());
             }
+            employee.setAnketaId(anketa.getId());
             employees.add(employee);
         }
         return employees;
