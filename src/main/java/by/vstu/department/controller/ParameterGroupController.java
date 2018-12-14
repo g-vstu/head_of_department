@@ -25,8 +25,8 @@ public class ParameterGroupController {
         return service.findAll(pageable);
     }
 
-    @GetMapping("/{type}")
-    public List<ParameterGroupDTO> findByType(@PathVariable String type) {
-        return service.findByType(ParameterGroupType.valueOf(type));
+    @GetMapping("/type/{index}")
+    public List<ParameterGroupDTO> findByType(@PathVariable("index") Integer index) {
+        return service.findByType(ParameterGroupType.getByIndex(index));
     }
 }

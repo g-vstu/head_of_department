@@ -10,7 +10,6 @@ import by.vstu.department.model.EmployeeParameter;
 import by.vstu.department.model.enums.AnketaParameterStatusType;
 import by.vstu.department.repository.AnketaRepository;
 import by.vstu.department.service.mapper.AnketaDTOMapper;
-import by.vstu.department.service.mapper.EmployeeParameterDTOMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,11 +23,9 @@ import java.util.*;
 public class AnketaService {
 
     private final AnketaRepository repository;
-    private final ParameterService parameterService;
     private final EmployeeParameterService employeeParameterService;
     private final StubService stubService;
     private final AnketaDTOMapper anketaDTOMapper;
-    private final EmployeeParameterDTOMapper parameterDTOMapper;
 
     public AnketaDTO get(Long id) {
         return anketaDTOMapper.toDTO(repository.findById(id)
@@ -46,11 +43,13 @@ public class AnketaService {
         List<EmployeeDTO> employees = new ArrayList<>();
         for (ExportEmployeeDTO exportEmployee : stubService.getEmployeeByHeadTabel(tabel)) {
             EmployeeDTO employee = new EmployeeDTO(exportEmployee);
-            Anketa anketa = repository.findByTabel(exportEmployee.getTabel()).orElse(null);
-            if (Objects.isNull(anketa)) {
+            Optional<Anketa> optAnketa = repository.findByTabel(exportEmployee.getTabel());
+            Anketa anketa;
+            if (!optAnketa.isPresent()) {
                 anketa = createDefault(exportEmployee.getTabel());
                 employee.setStatus(AnketaParameterStatusType.NOT_FILLED);
             } else {
+                anketa = optAnketa.get();
                 employee.setStatus(anketa.getStatus());
             }
             employee.setAnketaId(anketa.getId());
