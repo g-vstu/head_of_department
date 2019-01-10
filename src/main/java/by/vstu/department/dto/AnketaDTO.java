@@ -15,4 +15,6 @@ public class AnketaDTO {
     private AnketaParameterStatusType status;
 
     private Set<EmployeeParameterDTO> parameters;
+
+    private String halfYear;
 }

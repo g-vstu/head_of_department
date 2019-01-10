@@ -3,7 +3,6 @@ package by.vstu.department.service;
 import by.vstu.department.dto.AnketaDTO;
 import by.vstu.department.dto.EmployeeDTO;
 import by.vstu.department.dto.EmployeeParameterDTO;
-import by.vstu.department.dto.ExportEmployeeDTO;
 import by.vstu.department.exception.BusinessException;
 import by.vstu.department.model.Anketa;
 import by.vstu.department.model.EmployeeParameter;
@@ -15,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,40 +28,34 @@ public class AnketaService {
     private final StubService stubService;
     private final AnketaDTOMapper anketaDTOMapper;
 
+    @Transactional(readOnly = true)
     public AnketaDTO get(Long id) {
-        return anketaDTOMapper.toDTO(repository.findById(id)
-                .orElseThrow(() -> new BusinessException("Anketa with id " + id + " not found")));
+        return anketaDTOMapper.toDTO(findByIdNotNull(id));
     }
 
-    public AnketaDTO getByTabel(String tabel) {
-        Anketa anketa = repository.findByTabel(tabel)
-                .orElseThrow(() -> new BusinessException("Anketa with tabel " + tabel + " not found"));
+    @Transactional(readOnly = true)
+    public AnketaDTO getByTabelAndHalfYear(String tabel, String halfYear) {
+        Anketa anketa = repository.findByTabelAndHalfYear(tabel, halfYear)
+                .orElseThrow(() -> new BusinessException("Anketa with tabel: " + tabel + " and half-year: " + halfYear + " not found"));
         return anketaDTOMapper.toDTO(anketa);
     }
 
     @Transactional
     public List<EmployeeDTO> getEmployeeByHeadTabel(String tabel) {
-        List<EmployeeDTO> employees = new ArrayList<>();
-        for (ExportEmployeeDTO exportEmployee : stubService.getEmployeeByHeadTabel(tabel)) {
-            EmployeeDTO employee = new EmployeeDTO(exportEmployee);
-            Optional<Anketa> optAnketa = repository.findByTabel(exportEmployee.getTabel());
-            Anketa anketa;
-            if (!optAnketa.isPresent()) {
-                anketa = createDefault(exportEmployee.getTabel());
-                employee.setStatus(AnketaParameterStatusType.NOT_FILLED);
-            } else {
-                anketa = optAnketa.get();
-                employee.setStatus(anketa.getStatus());
-            }
-            employee.setAnketaId(anketa.getId());
-            employees.add(employee);
-        }
-        return employees;
+        List<EmployeeDTO> exportEmployee = stubService.getEmployeeByHeadTabel(tabel);
+        exportEmployee.stream()
+                .filter(emp -> !repository.existsByTabelAndHalfYear(emp.getTabel(), UtilService.getDefaultHalfYear()))
+                .forEach(emp -> createDefault(emp.getTabel()));
+
+        return exportEmployee;
     }
 
     @Transactional
     public AnketaDTO updateAnketa(Long id, List<EmployeeParameterDTO> parameters) {
         Anketa anketa = findByIdNotNull(id);
+        if (anketa.getStatus().equals(AnketaParameterStatusType.APPROVED)) {
+            throw new BusinessException("Anketa can't be updated. Check status");
+        }
         employeeParameterService.removeAllByAnketaId(id);
         Set<EmployeeParameter> employeeParameters = new HashSet<>();
         parameters.forEach(param -> employeeParameters.add(employeeParameterService.create(anketa, param)));
@@ -68,15 +63,16 @@ public class AnketaService {
         return anketaDTOMapper.toDTO(repository.save(anketa));
     }
 
-    public Anketa findByIdNotNull(Long id) {
+    private Anketa findByIdNotNull(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Anketa with id " + id + " not found"));
     }
 
-    private Anketa createDefault(String tabel) {
+    private void createDefault(String tabel) {
         Anketa anketa = new Anketa();
         anketa.setTabel(tabel);
+        anketa.setHalfYear(UtilService.getDefaultHalfYear());
         anketa.setStatus(AnketaParameterStatusType.NOT_FILLED);
-        return repository.save(anketa);
+        repository.save(anketa);
     }
 }

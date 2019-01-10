@@ -28,7 +28,7 @@ public class AnketaDTOMapper implements EntityToDTOMapper<AnketaDTO, Anketa, Ank
     @Override
     public AnketaDTO toDTO(Anketa entity, Object... args) {
         AnketaDTO dto = mapper.map(entity, AnketaDTO.class);
-        dto.setParameters(entity.getParameters().stream().map(emp -> employeeParameterDTOMapper.toDTO(emp)).collect(Collectors.toSet()));
+        dto.setParameters(entity.getParameters().stream().map(employeeParameterDTOMapper::toDTO).collect(Collectors.toSet()));
         return dto;
     }
 

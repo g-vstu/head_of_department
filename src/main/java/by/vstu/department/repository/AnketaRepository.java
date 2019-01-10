@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AnketaRepository extends JpaRepository<Anketa, Long> {
 
-    Optional<Anketa> findByTabel(String tabel);
+    Optional<Anketa> findByTabelAndHalfYear(String tabel, String halfYear);
 
-    boolean existsByTabel(String tabel);
+    boolean existsByTabelAndHalfYear(String tabel, String halfYear);
 }

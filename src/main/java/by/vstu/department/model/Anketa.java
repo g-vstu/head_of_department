@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
@@ -28,4 +29,9 @@ public class Anketa extends PersistentEntity {
 
     @OneToMany(mappedBy = "anketa", cascade = CascadeType.ALL)
     private Set<EmployeeParameter> parameters;
+
+    @NotNull
+    @Size(min = 6, max = 6)
+    @Column(name = "a_half_year")
+    private String halfYear;
 }

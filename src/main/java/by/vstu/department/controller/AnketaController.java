@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
@@ -34,8 +35,9 @@ public class AnketaController {
 
     @GetMapping("/employee/{tabel}")
     @PreAuthorize("hasRole('DEP_HEAD')")
-    public AnketaDTO getAnketaByTabel(@PathVariable String tabel) {
-        return anketaService.getByTabel(tabel);
+    public AnketaDTO getAnketaByTabel(@PathVariable String tabel,
+                                      @Size(max = 6, min = 6) @RequestParam String halfYear) {
+        return anketaService.getByTabelAndHalfYear(tabel, halfYear);
     }
 
     @PutMapping("/{id}")

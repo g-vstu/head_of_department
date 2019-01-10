@@ -1,24 +1,17 @@
 package by.vstu.department.dto;
 
-import by.vstu.department.model.enums.AnketaParameterStatusType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class EmployeeDTO {
-
-    private Long anketaId;
 
     private String fio;
 
     private String position;
 
+    private String department;
+
     private String tabel;
-
-    private AnketaParameterStatusType status;
-
-    public EmployeeDTO(ExportEmployeeDTO employeeDTO) {
-        setFio(employeeDTO.getFio());
-        setPosition(employeeDTO.getPosition());
-        setTabel(employeeDTO.getTabel());
-    }
 }
