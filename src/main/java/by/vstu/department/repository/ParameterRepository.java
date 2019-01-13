@@ -1,11 +1,11 @@
 package by.vstu.department.repository;
 
 import by.vstu.department.model.Parameter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface ParameterRepository extends JpaRepository<Parameter, Long> {
 
-    Page<Parameter> findByGroupId(Long groupId, Pageable pageable);
+    List<Parameter> findByGroupId(Long groupId);
 }

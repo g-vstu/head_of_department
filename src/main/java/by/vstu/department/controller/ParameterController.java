@@ -29,7 +29,7 @@ public class ParameterController {
     }
 
     @GetMapping("/group/{id}")
-    public Page<ParameterDTO> findByGroupType(@PathVariable Long id, Pageable pageable) {
-        return service.findByGroup(id, pageable);
+    public List<ParameterDTO> findByGroupType(@PathVariable Long id) {
+        return service.findByGroup(id);
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,8 +25,8 @@ public class ParameterService {
         return repository.findAll(pageable).map(mapper::toDTO);
     }
 
-    public Page<ParameterDTO> findByGroup(Long id, Pageable pageable) {
-        return repository.findByGroupId(id, pageable).map(mapper::toDTO);
+    public List<ParameterDTO> findByGroup(Long id) {
+        return mapper.toDTOs(repository.findByGroupId(id));
     }
 
     public Parameter findByIdNotNull(Long id) {
