@@ -11,4 +11,8 @@ public class StatisticsDTO {
     private ParameterGroupType groupType;
 
     private List<EmployeeStatisticsDTO> userStatistics;
+
+    public StatisticsDTO(ParameterGroupType type) {
+        this.groupType = type;
+    }
 }

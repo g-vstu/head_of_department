@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,14 +25,14 @@ public class StatisticsService {
     public StatisticsDTO getEmployeeParameterStats(String headTabel, ParameterGroupType type, String halfYear) {
         final List<String> halfYears = new ArrayList<>(Arrays.asList(halfYear.split(",")));
         final List<String> tabels = stubService.getEmployeeByHeadTabel(headTabel).stream().map(EmployeeDTO::getTabel).collect(Collectors.toList());
-        final List<EmployeeParameter> parameters = parameterService.getParametersBySearch(type, halfYears, tabels);
+        final Map<String, List<EmployeeParameter>> parameters = parameterService.getParametersBySearch(type, halfYears, tabels);
 
-        final StatisticsDTO stats = new StatisticsDTO();
-        stats.setGroupType(type);
+        final StatisticsDTO stats = new StatisticsDTO(type);
         List<EmployeeStatisticsDTO> emps = new ArrayList<>();
-        for (EmployeeParameter empParam : parameters) {
-            EmployeeStatisticsDTO empStats = new EmployeeStatisticsDTO(empParam.getAnketa().getTabel());
-            empStats.addParam(empParam.getParameter().getId(), empParam.getCount());
+
+        for (Map.Entry<String, List<EmployeeParameter>> entry : parameters.entrySet()) {
+            EmployeeStatisticsDTO empStats = new EmployeeStatisticsDTO(entry.getKey());
+            entry.getValue().forEach(param -> empStats.addParam(param.getParameter().getId(), param.getCount()));
             emps.add(empStats);
         }
         stats.setUserStatistics(emps);

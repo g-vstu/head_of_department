@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -34,7 +36,9 @@ public class EmployeeParameterService {
         repository.removeAllByAnketaId(anketaId);
     }
 
-    public List<EmployeeParameter> getParametersBySearch(ParameterGroupType type, List<String> halfYears, List<String> tabels) {
-        return repository.getParametersBySearch(type, halfYears, tabels);
+    public Map<String, List<EmployeeParameter>> getParametersBySearch(ParameterGroupType type, List<String> halfYears, List<String> tabels) {
+        final Map<String, List<EmployeeParameter>> result = new HashMap<>();
+        tabels.forEach(tabel -> result.put(tabel, repository.getParametersBySearch(type, halfYears, tabel)));
+        return result;
     }
 }

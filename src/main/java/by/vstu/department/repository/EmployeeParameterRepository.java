@@ -14,8 +14,8 @@ public interface EmployeeParameterRepository extends JpaRepository<EmployeeParam
 
     @Query("SELECT ep FROM EmployeeParameter ep WHERE ep.parameter.group.groupType = :groupType " +
             "AND ep.anketa.halfYear IN :halfYears " +
-            "AND ep.anketa.tabel IN :tabels")
+            "AND ep.anketa.tabel = :tabel")
     List<EmployeeParameter> getParametersBySearch(@Param("groupType") ParameterGroupType type,
                                                   @Param("halfYears") List<String> halfYears,
-                                                  @Param("tabels") List<String> tabels);
+                                                  @Param("tabel") String tabels);
 }
