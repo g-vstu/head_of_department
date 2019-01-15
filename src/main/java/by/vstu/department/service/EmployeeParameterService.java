@@ -3,6 +3,7 @@ package by.vstu.department.service;
 import by.vstu.department.dto.EmployeeParameterDTO;
 import by.vstu.department.model.Anketa;
 import by.vstu.department.model.EmployeeParameter;
+import by.vstu.department.model.enums.ParameterGroupType;
 import by.vstu.department.repository.EmployeeParameterRepository;
 import by.vstu.department.service.mapper.EmployeeParameterDTOMapper;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -30,5 +32,9 @@ public class EmployeeParameterService {
 
     public void removeAllByAnketaId(Long anketaId) {
         repository.removeAllByAnketaId(anketaId);
+    }
+
+    public List<EmployeeParameter> getParametersBySearch(ParameterGroupType type, List<String> halfYears, List<String> tabels) {
+        return repository.getParametersBySearch(type, halfYears, tabels);
     }
 }

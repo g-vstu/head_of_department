@@ -22,6 +22,6 @@ public class Parameter extends PersistentEntity {
     @JoinColumn(name = "pg_id")
     private ParameterGroup group;
 
-    @OneToMany(mappedBy = "parameter")
-    Set<EmployeeParameter> ankets;
+    /*@OneToMany(mappedBy = "parameter")
+    Set<EmployeeParameter> ankets;*/
 }
