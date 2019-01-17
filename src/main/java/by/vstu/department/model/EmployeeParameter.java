@@ -34,8 +34,8 @@ public class EmployeeParameter extends PersistentEntity {
     private Long count;
 
     @NotNull
-    @Column(name = "emp_mark")
-    private Long mark;
+    @Column(name = "emp_coefficient")
+    private Double coefficient;
 
     @NotNull
     @Column(name = "emp_created")

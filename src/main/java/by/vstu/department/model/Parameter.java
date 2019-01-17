@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -24,4 +23,8 @@ public class Parameter extends PersistentEntity {
 
     /*@OneToMany(mappedBy = "parameter")
     Set<EmployeeParameter> ankets;*/
+
+    @NotNull
+    @Column(name = "p_max_coefficient")
+    private Double maxCoefficient;
 }

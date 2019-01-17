@@ -15,7 +15,12 @@ databaseChangeLog:
               primaryKeyName: pk_param
         - column:
             name: p_name
-            type: varchar(400)
+            type: varchar(600)
+            constraints:
+              nullable: false
+        - column:
+            name: p_max_coefficient
+            type: DOUBLE
             constraints:
               nullable: false
         - column:

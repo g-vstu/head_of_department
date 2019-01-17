@@ -13,7 +13,7 @@ public class EmployeeStatisticsDTO {
 
     private List<IncludeEmployeeParameterStats> params = new ArrayList<>();
 
-    private Long fullSum = 0L;
+    private Double fullSum = 0.0;
 
     public EmployeeStatisticsDTO(String tabel) {
         this.tabel = tabel;
@@ -25,11 +25,11 @@ public class EmployeeStatisticsDTO {
 
         private Long typeId;
 
-        private Long count;
+        private Double sum;
     }
 
-    public void addParam(Long typeId, Long count) {
-        this.params.add(new IncludeEmployeeParameterStats(typeId, count));
-        this.fullSum += count;
+    public void addParam(Long typeId, Double sum) {
+        this.params.add(new IncludeEmployeeParameterStats(typeId, sum));
+        this.fullSum += sum;
     }
 }

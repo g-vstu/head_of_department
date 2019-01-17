@@ -34,8 +34,8 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: emp_mark
-            type: bigint
+            name: emp_coefficient
+            type: DOUBLE
             constraints:
               nullable: false
         - column:

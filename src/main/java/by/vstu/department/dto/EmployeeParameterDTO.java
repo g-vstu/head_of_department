@@ -4,7 +4,6 @@ import by.vstu.department.model.enums.AnketaParameterStatusType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -22,12 +21,10 @@ public class EmployeeParameterDTO {
     private AnketaParameterStatusType status = AnketaParameterStatusType.NOT_FILLED;
 
     @NotNull
-    @Min(1)
     private Long count;
 
     @NotNull
-    @Min(1)
-    private Long mark;
+    private Long coefficient;
 
     @NotNull
     private LocalDateTime created;

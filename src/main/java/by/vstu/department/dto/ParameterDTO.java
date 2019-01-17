@@ -10,4 +10,6 @@ public class ParameterDTO {
     private String name;
 
     private ParameterGroupDTO group;
+
+    private Double maxCoefficient;
 }
