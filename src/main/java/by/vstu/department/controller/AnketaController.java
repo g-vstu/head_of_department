@@ -4,7 +4,8 @@ import by.vstu.department.dto.AnketaDTO;
 import by.vstu.department.dto.EmployeeDTO;
 import by.vstu.department.dto.EmployeeParameterDTO;
 import by.vstu.department.service.AnketaService;
-import by.vstu.department.service.UtilService;
+import by.vstu.department.util.UtilService;
+import by.vstu.department.util.ValidList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class AnketaController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('DEP_HEAD')")
-    public AnketaDTO updateAnketa(@PathVariable Long id, @RequestBody @Valid List<EmployeeParameterDTO> parameters) {
+    public AnketaDTO updateAnketa(@PathVariable Long id, @Valid @RequestBody ValidList<EmployeeParameterDTO> parameters) {
         return anketaService.updateAnketa(id, parameters);
     }
 }

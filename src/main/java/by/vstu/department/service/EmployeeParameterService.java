@@ -1,8 +1,10 @@
 package by.vstu.department.service;
 
 import by.vstu.department.dto.EmployeeParameterDTO;
+import by.vstu.department.exception.BusinessException;
 import by.vstu.department.model.Anketa;
 import by.vstu.department.model.EmployeeParameter;
+import by.vstu.department.model.Parameter;
 import by.vstu.department.model.enums.ParameterGroupType;
 import by.vstu.department.repository.EmployeeParameterRepository;
 import by.vstu.department.service.mapper.EmployeeParameterDTOMapper;
@@ -10,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,15 @@ public class EmployeeParameterService {
     private final EmployeeParameterDTOMapper mapper;
 
     public EmployeeParameter create(Anketa anketa, EmployeeParameterDTO employeeParameterDTO) {
+        Parameter param = parameterService.findByIdNotNull(employeeParameterDTO.getParameterId());
+        if (param.getMaxCoefficient() < employeeParameterDTO.getCoefficient()) {
+            throw new BusinessException("Coefficient of param should be less than max coefficient. "
+                    + employeeParameterDTO.getCoefficient() + " greater than " + param.getMaxCoefficient());
+        }
         EmployeeParameter employeeParameter = mapper.toEntity(employeeParameterDTO);
         employeeParameter.setAnketa(anketa);
-        employeeParameter.setCreated(LocalDateTime.now());
-        employeeParameter.setParameter(parameterService.findByIdNotNull(employeeParameterDTO.getParameterId()));
+        employeeParameter.setParameter(param);
+        employeeParameter.setCount(employeeParameterDTO.getCount());
         return repository.save(employeeParameter);
     }
 

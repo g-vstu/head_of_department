@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -36,8 +35,4 @@ public class EmployeeParameter extends PersistentEntity {
     @NotNull
     @Column(name = "emp_coefficient")
     private Double coefficient;
-
-    @NotNull
-    @Column(name = "emp_created")
-    private LocalDateTime created;
 }

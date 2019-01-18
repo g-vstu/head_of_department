@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Data
 public class EmployeeParameterDTO {
@@ -24,8 +23,5 @@ public class EmployeeParameterDTO {
     private Long count;
 
     @NotNull
-    private Long coefficient;
-
-    @NotNull
-    private LocalDateTime created;
+    private Double coefficient;
 }

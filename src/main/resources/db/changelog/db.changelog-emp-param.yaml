@@ -38,11 +38,6 @@ databaseChangeLog:
             type: DOUBLE
             constraints:
               nullable: false
-        - column:
-            name: emp_created
-            type: TIMESTAMP WITHOUT TIME ZONE
-            constraints:
-              nullable: false
     - addAutoIncrement:
         columnName: emp_param_id
         incrementBy: 1
