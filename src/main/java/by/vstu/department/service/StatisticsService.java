@@ -32,7 +32,7 @@ public class StatisticsService {
 
         for (Map.Entry<String, List<EmployeeParameter>> entry : parameters.entrySet()) {
             EmployeeStatisticsDTO empStats = new EmployeeStatisticsDTO(entry.getKey());
-            entry.getValue().forEach(param -> empStats.addParam(param.getParameter().getId(), param.getCount() * param.getCoefficient()));
+            entry.getValue().forEach(param -> empStats.addParam(param.getParameter().getId(), param.getParameter().getName(), param.getCount() * param.getCoefficient()));
             emps.add(empStats);
         }
         stats.setUserStatistics(emps);

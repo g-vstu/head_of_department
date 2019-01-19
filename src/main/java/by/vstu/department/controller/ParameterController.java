@@ -1,6 +1,7 @@
 package by.vstu.department.controller;
 
 import by.vstu.department.dto.ParameterDTO;
+import by.vstu.department.model.enums.ParameterGroupType;
 import by.vstu.department.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,12 @@ public class ParameterController {
     }
 
     @GetMapping("/group/{id}")
-    public List<ParameterDTO> findByGroupType(@PathVariable Long id) {
+    public List<ParameterDTO> findByGroup(@PathVariable Long id) {
         return service.findByGroup(id);
+    }
+
+    @GetMapping("/type/{id}")
+    public List<ParameterDTO> findByGroupType(@PathVariable int id) {
+        return service.findByGroupType(ParameterGroupType.getByIndex(id));
     }
 }

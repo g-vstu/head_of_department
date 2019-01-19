@@ -3,6 +3,7 @@ package by.vstu.department.service;
 import by.vstu.department.dto.ParameterDTO;
 import by.vstu.department.exception.BusinessException;
 import by.vstu.department.model.Parameter;
+import by.vstu.department.model.enums.ParameterGroupType;
 import by.vstu.department.repository.ParameterRepository;
 import by.vstu.department.service.mapper.ParameterDTOMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,10 @@ public class ParameterService {
 
     public List<ParameterDTO> findByGroup(Long id) {
         return mapper.toDTOs(repository.findByGroupId(id));
+    }
+
+    public List<ParameterDTO> findByGroupType(ParameterGroupType groupType) {
+        return mapper.toDTOs(repository.findByGroupGroupType(groupType.toString()));
     }
 
     public Parameter findByIdNotNull(Long id) {

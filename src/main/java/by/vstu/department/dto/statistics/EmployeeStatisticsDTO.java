@@ -19,17 +19,19 @@ public class EmployeeStatisticsDTO {
         this.tabel = tabel;
     }
 
+    public void addParam(Long parameterId, String parameterName, Double sum) {
+        this.params.add(new IncludeEmployeeParameterStats(parameterId, parameterName, sum));
+        this.fullSum += sum;
+    }
+
     @Data
     @AllArgsConstructor
     private class IncludeEmployeeParameterStats {
 
-        private Long typeId;
+        private Long parameterId;
+
+        private String parameterName;
 
         private Double sum;
-    }
-
-    public void addParam(Long typeId, Double sum) {
-        this.params.add(new IncludeEmployeeParameterStats(typeId, sum));
-        this.fullSum += sum;
     }
 }

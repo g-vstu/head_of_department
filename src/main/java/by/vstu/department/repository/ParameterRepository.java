@@ -8,4 +8,6 @@ import java.util.List;
 public interface ParameterRepository extends JpaRepository<Parameter, Long> {
 
     List<Parameter> findByGroupId(Long groupId);
+
+    List<Parameter> findByGroupGroupType(String groupType);
 }
