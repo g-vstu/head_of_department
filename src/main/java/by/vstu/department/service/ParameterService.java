@@ -31,7 +31,7 @@ public class ParameterService {
     }
 
     public List<ParameterDTO> findByGroupType(ParameterGroupType groupType) {
-        return mapper.toDTOs(repository.findByGroupGroupType(groupType.toString()));
+        return mapper.toDTOs(repository.findByGroupGroupType(groupType));
     }
 
     public Parameter findByIdNotNull(Long id) {
