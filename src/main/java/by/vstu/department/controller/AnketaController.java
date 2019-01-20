@@ -22,20 +22,20 @@ public class AnketaController {
     private final AnketaService anketaService;
 
     @GetMapping
-    @PreAuthorize("hasRole('DEP_HEAD')")
+    @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR')")
     public List<EmployeeDTO> getEmployeesByHead() {
         String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
         return anketaService.getEmployeeByHeadTabel(tabelHead);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('DEP_HEAD')")
+    @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR')")
     public AnketaDTO getAnketa(@PathVariable Long id) {
         return anketaService.get(id);
     }
 
     @GetMapping("/employee/{tabel}")
-    @PreAuthorize("hasRole('DEP_HEAD')")
+    @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR')")
     public AnketaDTO getAnketaByTabel(@PathVariable String tabel,
                                       @Size(max = 6, min = 6) @RequestParam String halfYear) {
         return anketaService.getByTabelAndHalfYear(tabel, halfYear);

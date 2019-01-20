@@ -19,7 +19,7 @@ public class StatisticsController {
     private final StatisticsService statisticsService;
 
     @GetMapping
-    @PreAuthorize("hasRole('DEP_HEAD')")
+    @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR')")
     public StatisticsDTO get(@RequestParam int type, @RequestParam String halfYear) {
         String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
         return statisticsService.getEmployeeParameterStats(tabelHead, ParameterGroupType.getByIndex(type), halfYear);
