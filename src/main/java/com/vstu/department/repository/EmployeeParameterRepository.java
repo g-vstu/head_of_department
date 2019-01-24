@@ -23,7 +23,12 @@ public interface EmployeeParameterRepository extends JpaRepository<EmployeeParam
     @Query("SELECT " +
             "new com.vstu.department.dto.statistics.GeneralEmployeStatisticsDTO(a.tabel, COALESCE(sum(ep.coefficient * ep.count),0)) " +
             "FROM Anketa a LEFT JOIN a.parameters ep " +
-            "WHERE a.halfYear IN :halfYears AND a.tabel IN :tabels " +
+            "WHERE a.halfYear IN :halfYears AND a.tabel = :tabels " +
             "GROUP BY a.tabel")
     List<GeneralEmployeStatisticsDTO> getGeneralStatistics(@Param("halfYears") List<String> halfYears, @Param("tabels") List<String> tabels);
+
+    @Query("SELECT COALESCE(sum(ep.coefficient * ep.count),0) " +
+            "FROM EmployeeParameter ep " +
+            "WHERE ep.anketa.halfYear IN :halfYears AND ep.anketa.tabel = :tabel ")
+    double getGeneralStatisticsTemp(@Param("halfYears") List<String> halfYears, @Param("tabel") String tabel);
 }

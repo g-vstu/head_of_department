@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -50,6 +51,8 @@ public class EmployeeParameterService {
     }
 
     public List<GeneralEmployeStatisticsDTO> getGeneralStatistics(List<String> halfYears, List<String> tabels) {
-        return repository.getGeneralStatistics(halfYears, tabels);
+        return tabels.stream()
+                .map(tabel -> new GeneralEmployeStatisticsDTO(tabel, repository.getGeneralStatisticsTemp(halfYears, tabel)))
+                .collect(Collectors.toList());
     }
 }
