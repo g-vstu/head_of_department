@@ -1,0 +1,13 @@
+databaseChangeLog:
+- include:
+    file: changelog/db.changelog-param-group.yaml
+    relativeToChangelogFile: true
+- include:
+    file: changelog/db.changelog-param.yaml
+    relativeToChangelogFile: true
+- include:
+    file: changelog/db.changelog-anketa.yaml
+    relativeToChangelogFile: true
+- include:
+    file: changelog/db.changelog-emp-param.yaml
+    relativeToChangelogFile: true

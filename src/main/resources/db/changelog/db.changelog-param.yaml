@@ -1,0 +1,56 @@
+databaseChangeLog:
+- changeSet:
+    id: create_param_table
+    author: maksim.hlushneu@gmail.com
+    changes:
+    - createTable:
+        tableName: param
+        columns:
+        - column:
+            name: p_id
+            type: BIGINT
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: pk_param
+        - column:
+            name: p_name
+            type: varchar(600)
+            constraints:
+              nullable: false
+        - column:
+            name: p_max_coefficient
+            type: DOUBLE
+            constraints:
+              nullable: false
+        - column:
+            name: pg_id
+            type: BIGINT
+            constraints:
+              nullable: false
+    - addAutoIncrement:
+        columnName: p_id
+        incrementBy: 1
+        startWith: 1
+        tableName: param
+    - addForeignKeyConstraint:
+        baseColumnNames: pg_id
+        baseTableName: param
+        constraintName: fk_param_param_group
+        referencedColumnNames: pg_id
+        referencedTableName: param_group
+    - addUniqueConstraint:
+        columnNames: p_name,pg_id
+        constraintName: uc_param_p_name_pg_id
+        tableName: param
+
+- changeSet:
+    id: initialize_param
+    author: maksim.hlushneu@gmail.com
+    changes:
+    - sqlFile:
+        dbms: postgresql
+        encoding: utf8
+        path: initialize/param-init.sql
+        relativeToChangelogFile: true
+        splitStatements: true

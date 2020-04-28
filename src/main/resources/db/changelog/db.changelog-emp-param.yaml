@@ -1,0 +1,57 @@
+databaseChangeLog:
+- changeSet:
+    id: create_employee_param_table
+    author: maksim.hlushneu@gmail.com
+    changes:
+    - createTable:
+        tableName: emp_param
+        columns:
+        - column:
+            name: emp_param_id
+            type: BIGINT
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: pk_emp_param
+        - column:
+            name: a_id
+            type: BIGINT
+            constraints:
+              nullable: false
+        - column:
+            name: p_id
+            type: BIGINT
+            constraints:
+              nullable: false
+        - column:
+            name: emp_status
+            type: varchar(20)
+            constraints:
+              nullable: false
+        - column:
+            name: emp_count
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: emp_coefficient
+            type: DOUBLE
+            constraints:
+              nullable: false
+    - addAutoIncrement:
+        columnName: emp_param_id
+        incrementBy: 1
+        startWith: 1
+        tableName: emp_param
+    - addForeignKeyConstraint:
+        baseColumnNames: a_id
+        baseTableName: emp_param
+        constraintName: fk_emp_param_anketa
+        referencedColumnNames: a_id
+        referencedTableName: anketa
+    - addForeignKeyConstraint:
+        baseColumnNames: p_id
+        baseTableName: emp_param
+        constraintName: fk_emp_param_param
+        referencedColumnNames: p_id
+        referencedTableName: param

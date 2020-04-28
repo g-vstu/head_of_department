@@ -1,0 +1,24 @@
+server:
+  port: 8006
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/department
+    password: postgres
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+  cloud:
+    config:
+      uri: http://localhost:8000
+  application:
+    name: department-head-service
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+  liquibase:
+    change-log: classpath:db/db.changelog-master.yaml
+eureka:
+  client:
+    enabled: false
+token:
+  signing.key: bgM8ZUALPlm4nij35kFx1dp1yRzL4aAvsvWwrGlykx9T05Lgt7J53kaJ6BzbozNsGIQJR71n5NGzljd4Ae3wWhdSUnAkFIdIXCQmnkMlRvx1RwxMj3pQeArUg2K5eAhcNSPjTxthVslTemwO2GMRnm01HQPOa9R8m5fWuFdma3G1ZElZ0n8ctQ4n7KeZTLAhzMg5qSpNr2MrgkTYfrE9ci2VreGKMBo5O4TFyK52kY5m6HvlOCmcfZ5D8346KlJ

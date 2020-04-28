@@ -1,0 +1,39 @@
+databaseChangeLog:
+- changeSet:
+    id: create_anketa_table
+    author: maksim.hlushneu@gmail.com
+    changes:
+    - createTable:
+        tableName: anketa
+        columns:
+        - column:
+            name: a_id
+            type: BIGINT
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: pk_anketa
+        - column:
+            name: a_tabel
+            type: varchar(100)
+            constraints:
+              nullable: false
+        - column:
+            name: a_status
+            type: varchar(100)
+            constraints:
+              nullable: false
+        - column:
+            name: a_half_year
+            type: varchar(6)
+            constraints:
+              nullable: false
+    - addAutoIncrement:
+        columnName: a_id
+        incrementBy: 1
+        startWith: 1
+        tableName: anketa
+    - addUniqueConstraint:
+        columnNames: a_tabel,a_half_year
+        constraintName: uc_anketa_a_tabel_a_half_year
+        tableName: anketa
