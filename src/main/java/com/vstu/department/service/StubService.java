@@ -48,14 +48,14 @@ public class StubService {
                         new EmployeeDTO("КУКУРУЗА С.В.", "ст.преподаватель", "ДиМ", "DiM424")));
 
         List<EmployeeDTO> inYazEmployees = new ArrayList<>(
-                Arrays.asList(new EmployeeDTO("СТЕПАНОВ Д.А.", "ст.преподаватель", "ИнЯз", "InYaz270"),
+                Arrays.asList(new EmployeeDTO("КОСТЫРЕВА С.С.", "зав. кафедрой ", "ИнЯз", "InYaz569"),
+                        new EmployeeDTO("СТЕПАНОВ Д.А.", "ст.преподаватель", "ИнЯз", "InYaz270"),
                         new EmployeeDTO("ИЗМАЙЛОВИЧ О.В.", "ст.преподаватель", "ИнЯз", "InYaz425"),
                         new EmployeeDTO("ИМПЕРОВИЧ В.В.", "ст.преподаватель", "ИнЯз", "InYaz426"),
                         new EmployeeDTO("БУРДЫКО О.В.", "преподаватель ", "ИнЯз", "InYaz427"),
                         new EmployeeDTO("ОЛЕФИРЕНКО В.Б.", "ст.преподаватель", "ИнЯз", "InYaz428"),
                         new EmployeeDTO("СЕРЕБРЯКОВА В.В.", "преподаватель ", "ИнЯз", "InYaz429"),
-                        new EmployeeDTO("ПИОТУХ А.А.", "ст.преподаватель", "ИнЯз", "InYaz430"),
-                        new EmployeeDTO("КОСТЫРЕВА С.С.", "зав. кафедрой ", "ИнЯз", "InYaz569")));
+                        new EmployeeDTO("ПИОТУХ А.А.", "ст.преподаватель", "ИнЯз", "InYaz430")));
 
         List<EmployeeDTO> isapEmployees = new ArrayList<>(
                 Arrays.asList(new EmployeeDTO("КАЗАКОВ В.Е.", "зав. кафедрой ", "ИСАП", "ISAP108"),
@@ -93,11 +93,11 @@ public class StubService {
                         new EmployeeDTO("КУКУШКИНА Ю.М.", "ст.преподаватель", "КиТОиО", "KiTOiO459")));
 
         List<EmployeeDTO> miitEmployees = new ArrayList<>(
-                Arrays.asList(new EmployeeDTO("ДЖЕЖОРА А.А.", "зав. кафедрой ", "МиИТ", "MiIT74"),
+                Arrays.asList(new EmployeeDTO("НИКОНОВА Т.В.", "зав. кафедрой ", "МиИТ", "MiIT463"),
+                        new EmployeeDTO("ДЖЕЖОРА А.А.", "доцент", "МиИТ", "MiIT74"),
                         new EmployeeDTO("ДМИТРИЕВ А.П.", "ст.преподаватель", "МиИТ", "MiIT460"),
                         new EmployeeDTO("ДЯГИЛЕВ А.С.", "доцент", "МиИТ", "MiIT461"),
                         new EmployeeDTO("КОСТИН П.А.", "доцент", "МиИТ", "MiIT462"),
-                        new EmployeeDTO("НИКОНОВА Т.В.", "доцент", "МиИТ", "MiIT463"),
                         new EmployeeDTO("РАССОХИНА И.М.", "доцент", "МиИТ", "MiIT464"),
                         new EmployeeDTO("ВАРДОМАЦКАЯ Е.Ю.", "ст.преподаватель", "МиИТ", "MiIT465"),
                         new EmployeeDTO("КОВАЛЕНКО А.В.", "ст.преподаватель", "МиИТ", "MiIT466"),
@@ -193,7 +193,8 @@ public class StubService {
                         new EmployeeDTO("МАШКОВ А.Ю.", "преподаватель ", "ФКиС", "FKiS526")));
 
         List<EmployeeDTO> fiKDEmployees = new ArrayList<>(
-                Arrays.asList(new EmployeeDTO("ПРОКОФЬЕВА Н.Л.", "зав. кафедрой ", "ФиКД", "FiKD223"),
+                Arrays.asList(new EmployeeDTO("СОВЕТНИКОВА О.П.", "зав. кафедрой ", "ФиКД", "FiKD568"),
+                        new EmployeeDTO("ПРОКОФЬЕВА Н.Л.", "доцент", "ФиКД", "FiKD223"),
                         new EmployeeDTO("ДЕМ О.Д.", "доцент", "ФиКД", "FiKD533"),
                         new EmployeeDTO("КВАСНИКОВА В.В.", "доцент", "ФиКД", "FiKD534"),
                         new EmployeeDTO("ПРОКОФЬЕВА Н.Л.", "доцент", "ФиКД", "FiKD535"),
@@ -201,8 +202,7 @@ public class StubService {
                         new EmployeeDTO("ДОМБРОВСКАЯ Е.Н.", "ст.преподаватель", "ФиКД", "FiKD537"),
                         new EmployeeDTO("ЖУЧКЕВИЧ О.Н.", "ст.преподаватель", "ФиКД", "FiKD538"),
                         new EmployeeDTO("ЛЕВШИЦКАЯ О.Р.", "ст.преподаватель", "ФиКД", "FiKD539"),
-                        new EmployeeDTO("МАЦКЕВИЧ Н.В.", "ст.преподаватель", "ФиКД", "FiKD540"),
-                        new EmployeeDTO("СОВЕТНИКОВА О.П.", "зав. кафедрой ", "ФиКД", "FiKD568")));
+                        new EmployeeDTO("МАЦКЕВИЧ Н.В.", "ст.преподаватель", "ФиКД", "FiKD540")));
 
         List<EmployeeDTO> eiHTEmployees = new ArrayList<>(
                 Arrays.asList(new EmployeeDTO("ЯСИНСКАЯ Н.Н.", "зав. кафедрой ", "ЭиХТ", "EiHT312"),
