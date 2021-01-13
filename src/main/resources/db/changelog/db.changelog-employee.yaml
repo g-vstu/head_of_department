@@ -19,17 +19,17 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: employee_position
-            type: varchar(255)
-            constraints:
-              nullable: false
-        - column:
             name: employee_tabel
             type: varchar(255)
             constraints:
               nullable: false
         - column:
             name: d_id
+            type: BIGINT
+            constraints:
+              nullable: false
+        - column:
+            name: position_id
             type: BIGINT
             constraints:
               nullable: false
@@ -44,6 +44,12 @@ databaseChangeLog:
         constraintName: fk_employees_departments
         referencedColumnNames: d_id
         referencedTableName: departments
+    - addForeignKeyConstraint:
+        baseColumnNames: position_id
+        baseTableName: employees
+        constraintName: fk_employees_positions
+        referencedColumnNames: position_id
+        referencedTableName: positions
 - changeSet:
     id: initialize_employees
     author: venera123555@gmail.com

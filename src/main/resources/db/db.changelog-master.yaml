@@ -15,6 +15,9 @@ databaseChangeLog:
     file: changelog/db.changelog-departments.yaml
     relativeToChangelogFile: true
 - include:
+    file: changelog/db.changelog-employee-position.yaml
+    relativeToChangelogFile: true
+- include:
     file: changelog/db.changelog-employee.yaml
     relativeToChangelogFile: true
     
