@@ -30,6 +30,10 @@ public class Department extends PersistentEntity {
     @Column(name = "d_name")
     String name;
 
+    @NotNull
+    @Column(name = "d_display_name")
+    String displayName;
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Employee> employees;
 

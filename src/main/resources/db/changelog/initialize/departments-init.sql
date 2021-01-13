@@ -1,90 +1,108 @@
 INSERT INTO departments
 (
    d_id,
-   d_name
+   d_name,
+   d_display_name
 )
 VALUES
 (
    1,
-   'DiM'
+   'DiM',
+   'ДиМ'
 ),
 
 (
    2,
-   'InYaz'
+   'InYaz',
+   'ИнЯз'
 ),
 
 (
    3,
-   'ISAP'
+   'ISAP',
+   'ИСАП'
 ),
 
 (
    4,
-   'KiTOiO'
+   'KiTOiO',
+   'КиТОиО'
 ),
 
 (
    5,
-   'MiIT'
+   'MiIT',
+   'МиИТ'
 ),
 
 (
    6,
-   'MALP'
+   'MALP',
+   'МАЛП'
 ),
 
 (
    7,
-   'M'
+   'M',
+   'М'
 ),
 
 (
    8,
-   'SozGum'
+   'SozGum',
+   'СоцГум'
 ),
 
 (
    9,
-   'TRiT'
+   'TRiT',
+   'ТРиТ'
 ),
 
 (
    10,
-   'TiOMP'
+   'TiOMP',
+   'ТиОМП'
 ),
 
 (
    11,
-   'TTM'
+   'TTM',
+   'ТТМ'
 ),
 
 (
    12,
-   'FiTM'
+   'FiTM',
+   'ФиТМ'
 ),
 
 (
    13,
-   'FKiS'
+   'FKiS',
+   'ФКиС'
 ),
 
 (
    14,
-   'FiKD'
+   'FiKD',
+   'ФиКД'
 ),
 
 (
    15,
-   'EiHT'
+   'EiHT',
+   'ЭиХТ'
 ),
 
 (
    16,
-   'E'
+   'E',
+   'Э'
 ),
 
 (
    17,
-   'ETiM'
+   'ETiM',
+   'ЭТиМ'
 );

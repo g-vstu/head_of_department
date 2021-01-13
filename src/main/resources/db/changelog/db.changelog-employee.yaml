@@ -24,11 +24,6 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: employee_department
-            type: varchar(255)
-            constraints:
-              nullable: false
-        - column:
             name: employee_tabel
             type: varchar(255)
             constraints:

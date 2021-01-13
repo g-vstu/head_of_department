@@ -18,6 +18,11 @@ databaseChangeLog:
             type: varchar(50)
             constraints:
               nullable: false
+        - column:
+            name: d_display_name
+            type: varchar(50)
+            constraints:
+              nullable: false
     - addAutoIncrement:
         columnName: d_id
         incrementBy: 1

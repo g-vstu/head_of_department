@@ -36,10 +36,6 @@ public class Employee extends PersistentEntity {
     String position;
 
     @NotNull
-    @Column(name = "employee_department")
-    String departmentDiscription;
-
-    @NotNull
     @Column(name = "employee_tabel")
     String tabel;
 

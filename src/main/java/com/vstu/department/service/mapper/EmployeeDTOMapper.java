@@ -18,7 +18,7 @@ public class EmployeeDTOMapper implements EntityToDTOMapper<EmployeeDTO, Employe
     @Override
     public EmployeeDTO toDTO(Employee entity, Object... args) {
         EmployeeDTO dto = mapper.map(entity, EmployeeDTO.class);
-        dto.setDepartment(entity.getDepartmentDiscription());
+        dto.setDepartment(entity.getDepartment().getDisplayName());
         return dto;
     }
 
