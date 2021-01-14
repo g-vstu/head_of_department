@@ -12,7 +12,10 @@ databaseChangeLog:
     file: changelog/db.changelog-emp-param.yaml
     relativeToChangelogFile: true
 - include:
-    file: changelog/db.changelog-departments.yaml
+    file: changelog/db.changelog-faculty.yaml
+    relativeToChangelogFile: true
+- include:
+    file: changelog/db.changelog-department.yaml
     relativeToChangelogFile: true
 - include:
     file: changelog/db.changelog-employee-position.yaml
@@ -20,4 +23,3 @@ databaseChangeLog:
 - include:
     file: changelog/db.changelog-employee.yaml
     relativeToChangelogFile: true
-    

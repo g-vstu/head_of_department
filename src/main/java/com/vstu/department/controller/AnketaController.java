@@ -31,7 +31,7 @@ public class AnketaController {
     private final AnketaService anketaService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR')")
+    @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR', 'DEAN')")
     public List<EmployeeDTO> getEmployeesByHead() {
         String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
         return anketaService.getEmployeeByHeadTabel(tabelHead);

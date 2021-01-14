@@ -7,8 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,24 +21,19 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Entity
 @RequiredArgsConstructor
-@Table(name = "departments")
-@AttributeOverride(name = "id", column = @Column(name = "d_id"))
+@Table(name = "faculties")
+@AttributeOverride(name = "id", column = @Column(name = "f_id"))
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Department extends PersistentEntity {
+public class Faculty extends PersistentEntity {
 
     @NotNull
-    @Column(name = "d_name")
+    @Column(name = "f_name")
     String name;
 
     @NotNull
-    @Column(name = "d_display_name")
+    @Column(name = "f_display_name")
     String displayName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "f_id")
-    Faculty faculty;
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    List<Employee> employees;
-
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<Department> departments;
 }
