@@ -1,15 +1,20 @@
 package com.vstu.department.dto;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ParameterDTO {
 
-    private Long id;
+    Long id;
 
-    private String name;
+    String name;
 
-    private ParameterGroupDTO group;
+    ParameterGroupDTO group;
 
-    private Double maxCoefficient;
+    Double maxCoefficient;
+
+    String tip;
 }

@@ -1,0 +1,11 @@
+databaseChangeLog:
+- changeSet:
+    id: params_add_new_tips
+    author: venera123555@gmail.com
+    changes:
+    - addColumn:
+        tableName: param
+        columns:
+        - column:
+            name: p_tip
+            type: varchar(600)

@@ -23,3 +23,6 @@ databaseChangeLog:
 - include:
     file: changelog/db.changelog-employee.yaml
     relativeToChangelogFile: true
+- include:
+    file: changelog/db.changelog-emp-param-add-tips.yaml
+    relativeToChangelogFile: true
