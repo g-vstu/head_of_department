@@ -1,0 +1,9 @@
+databaseChangeLog:
+- changeSet:
+    id: change-emp-param-column-type
+    author: venera123555@gmail.com
+    changes:
+    - modifyDataType:
+        columnName: emp_count
+        newDataType: DOUBLE
+        tableName: emp_param

@@ -26,3 +26,6 @@ databaseChangeLog:
 - include:
     file: changelog/db.changelog-emp-param-add-tips.yaml
     relativeToChangelogFile: true
+- include:
+    file: changelog/db.changelog-emp-param-change-column0.yaml
+    relativeToChangelogFile: true

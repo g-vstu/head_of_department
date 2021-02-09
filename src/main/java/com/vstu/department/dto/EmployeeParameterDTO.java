@@ -1,10 +1,11 @@
 package com.vstu.department.dto;
 
-import com.vstu.department.model.enums.AnketaParameterStatusType;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vstu.department.model.enums.AnketaParameterStatusType;
+
+import lombok.Data;
 
 @Data
 public class EmployeeParameterDTO {
@@ -20,7 +21,7 @@ public class EmployeeParameterDTO {
     private AnketaParameterStatusType status = AnketaParameterStatusType.NOT_FILLED;
 
     @NotNull
-    private Long count;
+    private Double count;
 
     @NotNull
     private Double coefficient;
