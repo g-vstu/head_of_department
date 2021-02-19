@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.vstu.department.dto.statistics.EmployeeStatisticsDTO;
 import com.vstu.department.exception.BusinessEntityNotFoundException;
+import com.vstu.department.model.Department;
 import com.vstu.department.model.enums.ParameterGroupType;
 import com.vstu.department.repository.DepartmentRepository;
 import com.vstu.department.repository.EmployeeRepository;
@@ -107,11 +108,18 @@ public class ReportService {
         statisticsDTOScience.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
         statisticsDTOOther.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
 
-        departmentRepository.findAllUniq().forEach(currDepartment -> {
-            XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
+        List<Department> departmentDTOs = departmentRepository.findAll();
+        for (Department dep : departmentDTOs) {
+            XSSFSheet sheet = workbook.createSheet(dep.getDisplayName());
             addHeader(sheet);
-            departments.put(currDepartment.getName(), sheet);
-        });
+            departments.put(dep.getName(), sheet);
+        }
+
+//        departmentRepository.findAllUniq().forEach(currDepartment -> {
+//            XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
+//            addHeader(sheet);
+//            departments.put(currDepartment.getName(), sheet);
+//        });
 
         departments.forEach((k, v) -> {
             statisticsDTOStudy.forEach(currDTO -> {
