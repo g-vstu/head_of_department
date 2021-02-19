@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.util.TempFile;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import com.vstu.department.dto.statistics.EmployeeStatisticsDTO;
 import com.vstu.department.exception.BusinessEntityNotFoundException;
-import com.vstu.department.model.Department;
 import com.vstu.department.model.enums.ParameterGroupType;
 import com.vstu.department.repository.DepartmentRepository;
 import com.vstu.department.repository.EmployeeRepository;
@@ -47,7 +46,7 @@ public class ReportService {
 
     private static final int COLUMN_FIO_WIDTH = 6000, FONT_HEIGHT = 12;
 
-    private static XSSFWorkbook workbook = new XSSFWorkbook();
+    private XSSFWorkbook workbook = null;
 
     final StatisticsService statisticsService;
 
@@ -56,15 +55,18 @@ public class ReportService {
     final DepartmentRepository departmentRepository;
 
     public ResponseEntity<Resource> generateViceRectorReport(String halfYear) throws IOException {
-        File tempFile = TempFile.createTempFile("poi-sxssf-template", ".xlsx");
+        File tempFile = File.createTempFile(UUID.randomUUID().toString(), ".xlsx");
+        workbook = new XSSFWorkbook();
         createAndFillSheets(workbook, halfYear);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
             workbook.write(fos);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + String.format("Report (%s)", halfYear) + ".xlsx" + "\"")
+                    .header("content-type", XLSX_HEADER).body(new UrlResource(tempFile.toURI()));
+        } finally {
+            tempFile.delete();
         }
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + String.format("Report (%s)", halfYear) + ".xlsx" + "\"")
-                .header("content-type", XLSX_HEADER).body(new UrlResource(tempFile.toURI()));
     }
 
     private void addHeader(XSSFSheet sheet) {
@@ -91,9 +93,15 @@ public class ReportService {
 
     private void createAndFillSheets(XSSFWorkbook workbook, String halfYear) {
 
-        String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
-
         Map<String, XSSFSheet> departments = new HashMap();
+
+        departmentRepository.findAll().forEach(currDepartment -> {
+            XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
+            addHeader(sheet);
+            departments.put(currDepartment.getName(), sheet);
+        });
+
+        String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
 
         List<EmployeeStatisticsDTO> statisticsDTOStudy = statisticsService
                 .getEmployeeParameterStats(tabelHead, ParameterGroupType.STUDY, halfYear).getUserStatistics();
@@ -107,19 +115,6 @@ public class ReportService {
         statisticsDTOStudy.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
         statisticsDTOScience.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
         statisticsDTOOther.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
-
-        List<Department> departmentDTOs = departmentRepository.findAll();
-        for (Department dep : departmentDTOs) {
-            XSSFSheet sheet = workbook.createSheet(dep.getDisplayName());
-            addHeader(sheet);
-            departments.put(dep.getName(), sheet);
-        }
-
-//        departmentRepository.findAllUniq().forEach(currDepartment -> {
-//            XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
-//            addHeader(sheet);
-//            departments.put(currDepartment.getName(), sheet);
-//        });
 
         departments.forEach((k, v) -> {
             statisticsDTOStudy.forEach(currDTO -> {
