@@ -107,7 +107,7 @@ public class ReportService {
         statisticsDTOScience.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
         statisticsDTOOther.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
 
-        departmentRepository.findAll().forEach(currDepartment -> {
+        departmentRepository.findAllUniq().forEach(currDepartment -> {
             XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
             addHeader(sheet);
             departments.put(currDepartment.getName(), sheet);
