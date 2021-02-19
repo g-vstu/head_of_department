@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.TempFile;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -46,8 +46,6 @@ public class ReportService {
 
     private static final int COLUMN_FIO_WIDTH = 6000, FONT_HEIGHT = 12;
 
-    private XSSFWorkbook workbook = null;
-
     final StatisticsService statisticsService;
 
     final EmployeeRepository employeeRepository;
@@ -55,8 +53,8 @@ public class ReportService {
     final DepartmentRepository departmentRepository;
 
     public ResponseEntity<Resource> generateViceRectorReport(String halfYear) throws IOException {
-        File tempFile = File.createTempFile(UUID.randomUUID().toString(), ".xlsx");
-        workbook = new XSSFWorkbook();
+        File tempFile = TempFile.createTempFile("poi-sxssf-template", ".xlsx");
+        XSSFWorkbook workbook = new XSSFWorkbook();
         createAndFillSheets(workbook, halfYear);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
             workbook.write(fos);
@@ -64,12 +62,10 @@ public class ReportService {
                     .header(HttpHeaders.CONTENT_DISPOSITION,
                             "attachment; filename=\"" + String.format("Report (%s)", halfYear) + ".xlsx" + "\"")
                     .header("content-type", XLSX_HEADER).body(new UrlResource(tempFile.toURI()));
-        } finally {
-            tempFile.delete();
         }
     }
 
-    private void addHeader(XSSFSheet sheet) {
+    private void addHeader(XSSFWorkbook workbook, XSSFSheet sheet) {
         XSSFRow tableNameRow = sheet.createRow(0);
         tableNameRow.createCell(0).setCellValue(STUDY);
         tableNameRow.createCell(3).setCellValue(SCIENCE);
@@ -93,15 +89,9 @@ public class ReportService {
 
     private void createAndFillSheets(XSSFWorkbook workbook, String halfYear) {
 
-        Map<String, XSSFSheet> departments = new HashMap();
-
-        departmentRepository.findAll().forEach(currDepartment -> {
-            XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
-            addHeader(sheet);
-            departments.put(currDepartment.getName(), sheet);
-        });
-
         String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
+
+        Map<String, XSSFSheet> departments = new HashMap();
 
         List<EmployeeStatisticsDTO> statisticsDTOStudy = statisticsService
                 .getEmployeeParameterStats(tabelHead, ParameterGroupType.STUDY, halfYear).getUserStatistics();
@@ -116,26 +106,33 @@ public class ReportService {
         statisticsDTOScience.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
         statisticsDTOOther.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
 
+        departmentRepository.findAll().forEach(currDepartment -> {
+            XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
+            addHeader(workbook, sheet);
+            departments.put(currDepartment.getName(), sheet);
+        });
+
         departments.forEach((k, v) -> {
             statisticsDTOStudy.forEach(currDTO -> {
                 if (currDTO.getTabel().replaceAll("[^A-Z,a-z]", "").equals(k)) {
-                    addStringsToTable(v, currDTO, ParameterGroupType.STUDY);
+                    addStringsToTable(workbook, v, currDTO, ParameterGroupType.STUDY);
                 }
             });
             statisticsDTOScience.forEach(currDTO -> {
                 if (currDTO.getTabel().replaceAll("[^A-Z,a-z]", "").equals(k)) {
-                    addStringsToTable(v, currDTO, ParameterGroupType.SCIENCE);
+                    addStringsToTable(workbook, v, currDTO, ParameterGroupType.SCIENCE);
                 }
             });
             statisticsDTOOther.forEach(currDTO -> {
                 if (currDTO.getTabel().replaceAll("[^A-Z,a-z]", "").equals(k)) {
-                    addStringsToTable(v, currDTO, ParameterGroupType.OTHER);
+                    addStringsToTable(workbook, v, currDTO, ParameterGroupType.OTHER);
                 }
             });
         });
     }
 
-    private void addStringsToTable(XSSFSheet sheet, EmployeeStatisticsDTO dto, ParameterGroupType type) {
+    private void addStringsToTable(XSSFWorkbook workbook, XSSFSheet sheet, EmployeeStatisticsDTO dto,
+            ParameterGroupType type) {
         int columnNumber = type == ParameterGroupType.STUDY ? 0
                 : type == ParameterGroupType.SCIENCE ? 3 : type == ParameterGroupType.OTHER ? 6 : 9;
 
