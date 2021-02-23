@@ -1,12 +1,14 @@
 package com.vstu.department.dto.statistics;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
+@NoArgsConstructor
 public class EmployeeStatisticsDTO {
 
     private String tabel;
@@ -22,6 +24,12 @@ public class EmployeeStatisticsDTO {
     public void addParam(Long parameterId, String parameterName, Double sum) {
         this.params.add(new IncludeEmployeeParameterStats(parameterId, parameterName, sum));
         this.fullSum += sum;
+    }
+
+    public EmployeeStatisticsDTO(String tabel, Double fullSum) {
+        super();
+        this.tabel = tabel;
+        this.fullSum = fullSum;
     }
 
     @Data

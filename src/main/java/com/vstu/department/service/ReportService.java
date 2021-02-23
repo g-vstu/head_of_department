@@ -3,6 +3,7 @@ package com.vstu.department.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,8 @@ public class ReportService {
 
     private static final String XLSX_HEADER = "application/vnd.ms-excel";
 
-    private static final String STUDY = "Учеба", SCIENCE = "Наука", OTHER = "Другое",
-            /* GENERAL = "Общее", */ FIO = "ФИО", SCORE = "БАЛЛ", FONT_NAME = "Times New Roman";
+    private static final String STUDY = "Учеба", SCIENCE = "Наука", OTHER = "Другое", GENERAL = "Общее", FIO = "ФИО",
+            SCORE = "БАЛЛ", FONT_NAME = "Times New Roman";
 
     private static final int COLUMN_FIO_WIDTH = 6000, FONT_HEIGHT = 12;
 
@@ -70,13 +71,13 @@ public class ReportService {
         tableNameRow.createCell(0).setCellValue(STUDY);
         tableNameRow.createCell(3).setCellValue(SCIENCE);
         tableNameRow.createCell(6).setCellValue(OTHER);
-//        tableNameRow.createCell(9).setCellValue(GENERAL);
+        tableNameRow.createCell(9).setCellValue(GENERAL);
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 6, 7));
-//        sheet.addMergedRegion(new CellRangeAddress(0, 0, 9, 10));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 9, 10));
         XSSFRow columnNameRow = sheet.createRow(1);
-        for (int i = 0, j = 1; i <= 7/* 10 */; j = (i = i + 3) + 1) {
+        for (int i = 0, j = 1; i <= 10; j = (i = i + 3) + 1) {
             XSSFCell fioCell = columnNameRow.createCell(i);
             fioCell.setCellValue(FIO);
             fioCell.setCellStyle(createStyle(workbook));
@@ -102,10 +103,26 @@ public class ReportService {
         List<EmployeeStatisticsDTO> statisticsDTOOther = statisticsService
                 .getEmployeeParameterStats(tabelHead, ParameterGroupType.OTHER, halfYear).getUserStatistics();
 
-        statisticsDTOStudy.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
-        statisticsDTOScience.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
-        statisticsDTOOther.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
+        List<EmployeeStatisticsDTO> statisticsDTOAll = new ArrayList();
 
+        statisticsDTOStudy.forEach(studyDTO -> {
+            statisticsDTOAll.add(new EmployeeStatisticsDTO(studyDTO.getTabel(), studyDTO.getFullSum()));
+        });
+
+        statisticsDTOAll.forEach(allDTO -> {
+            statisticsDTOScience.forEach(scienceDTO -> {
+                if (allDTO.getTabel().equals(scienceDTO.getTabel())) {
+                    allDTO.setFullSum(allDTO.getFullSum() + scienceDTO.getFullSum());
+                }
+            });
+            statisticsDTOOther.forEach(otherDTO -> {
+                if (allDTO.getTabel().equals(otherDTO.getTabel())) {
+                    allDTO.setFullSum(allDTO.getFullSum() + otherDTO.getFullSum());
+                }
+            });
+        });
+
+        statisticsDTOAll.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
         departmentRepository.findAll().forEach(currDepartment -> {
             XSSFSheet sheet = workbook.createSheet(currDepartment.getDisplayName());
             addHeader(workbook, sheet);
@@ -128,6 +145,11 @@ public class ReportService {
                     addStringsToTable(workbook, v, currDTO, ParameterGroupType.OTHER);
                 }
             });
+            statisticsDTOAll.forEach(currDTO -> {
+                if (currDTO.getTabel().replaceAll("[^A-Z,a-z]", "").equals(k)) {
+                    addStringsToTable(workbook, v, currDTO, null);
+                }
+            });
         });
     }
 
@@ -135,9 +157,7 @@ public class ReportService {
             ParameterGroupType type) {
         int columnNumber = type == ParameterGroupType.STUDY ? 0
                 : type == ParameterGroupType.SCIENCE ? 3 : type == ParameterGroupType.OTHER ? 6 : 9;
-
         XSSFRow row = findFreeRow(sheet, columnNumber);
-
         XSSFCell fioCell = row.createCell(columnNumber);
         fioCell.setCellValue(employeeRepository.findByTabel(dto.getTabel())
                 .orElseThrow(() -> new BusinessEntityNotFoundException("Tabel not found")).getFio());
