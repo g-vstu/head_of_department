@@ -51,8 +51,13 @@ public class EmployeeParameterService {
     }
 
     public List<GeneralEmployeStatisticsDTO> getGeneralStatistics(List<String> halfYears, List<String> tabels) {
-        return tabels.stream()
+        List<GeneralEmployeStatisticsDTO> generalEmployeStatisticsDTOS = new ArrayList<>();
+        tabels.stream().forEach(tabel -> generalEmployeStatisticsDTOS.add(
+                new GeneralEmployeStatisticsDTO(tabel, repository.getGeneralStatisticsTemp(halfYears, tabel), repository.getSummEmployeeParametersByAnketaTabelAndAnketaHalfYears(tabel, halfYears))));
+        return generalEmployeStatisticsDTOS;
+
+        /*return tabels.stream()
                 .map(tabel -> new GeneralEmployeStatisticsDTO(tabel, repository.getGeneralStatisticsTemp(halfYears, tabel)))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 }
