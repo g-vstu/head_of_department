@@ -1,6 +1,7 @@
 package com.vstu.department.repository;
 
 import com.vstu.department.dto.statistics.GeneralEmployeStatisticsDTO;
+import com.vstu.department.dto.statistics.GeneralEmployeeStatisticsParamsDTO;
 import com.vstu.department.model.EmployeeParameter;
 import com.vstu.department.model.enums.ParameterGroupType;
 import org.springframework.data.jpa.repository.JpaRepository;
