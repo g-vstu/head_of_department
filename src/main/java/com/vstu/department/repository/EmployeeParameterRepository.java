@@ -31,4 +31,12 @@ public interface EmployeeParameterRepository extends JpaRepository<EmployeeParam
             "FROM EmployeeParameter ep " +
             "WHERE ep.anketa.halfYear IN :halfYears AND ep.anketa.tabel = :tabel ")
     double getGeneralStatisticsTemp(@Param("halfYears") List<String> halfYears, @Param("tabel") String tabel);
+    
+    @Query ("SELECT ep FROM EmployeeParameter ep LEFT JOIN ep.anketa a WHERE a.tabel = :tabel AND a.halfYear = :halfYears")
+    List<EmployeeParameter> getEmployeeParameterByAnketaTabelAndAnketaHalfYear(@Param("tabel") String tabel, @Param("halfYears") List<String> halfYears);
+
+    @Query("SELECT new com.vstu.department.dto.statistics.GeneralEmployeeStatisticsParamsDTO(ep.parameter.id, sum(ep.coefficient * ep.count) as rez) FROM EmployeeParameter ep LEFT JOIN ep.anketa a " +
+            "WHERE a.tabel = :tabel AND a.halfYear = :halfYears GROUP BY ep.parameter.id")
+    List<GeneralEmployeeStatisticsParamsDTO> getSummEmployeeParametersByAnketaTabelAndAnketaHalfYears(@Param("tabel") String tabel, @Param("halfYears") List<String> halfYears);
+
 }
