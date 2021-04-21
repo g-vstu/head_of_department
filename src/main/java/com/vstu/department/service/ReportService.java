@@ -65,6 +65,18 @@ public class ReportService {
                     .header("content-type", XLSX_HEADER).body(new UrlResource(tempFile.toURI()));
         }
     }
+    public ResponseEntity<Resource> generateDepHeadReport(String halfYear) throws IOException {
+        File tempFile = TempFile.createTempFile("poi-sxssf-template", ".xlsx");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        createAndFillSheets(workbook, halfYear);
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            workbook.write(fos);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + String.format("Report (%s)", halfYear) + ".xlsx" + "\"")
+                    .header("content-type", XLSX_HEADER).body(new UrlResource(tempFile.toURI()));
+        }
+    }
 
     private void addHeader(XSSFWorkbook workbook, XSSFSheet sheet) {
         XSSFRow tableNameRow = sheet.createRow(0);

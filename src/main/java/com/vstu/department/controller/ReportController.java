@@ -32,4 +32,11 @@ public class ReportController {
         return reportService.generateViceRectorReport(halfYear);
     }
 
+    @GetMapping("/forDepHead")
+    @PreAuthorize("hasRole('DEP_HEAD')")
+    public @ResponseBody ResponseEntity<Resource> generateDepHeadReport(@RequestParam String halfYear)
+            throws IOException {
+        return reportService.generateDepHeadReport(halfYear);
+    }
+
 }

@@ -12,6 +12,8 @@ public final class UtilService {
 
     private static final String DEFAULT_VICE_RECTOR_PREFIX = "rector";
 
+    private static final String DEFAULT_DEP_HEAD_PREFIX = "depHead";
+
     static {
         final LocalDateTime date = LocalDateTime.now();
         DEFAULT_HALF_YEAR = date.getYear() + "-" + (date.getMonthValue() < 7 ? "1" : "2");
@@ -32,5 +34,9 @@ public final class UtilService {
 
     public static String getDefaultViceRectorPrefix() {
         return DEFAULT_VICE_RECTOR_PREFIX;
+    }
+
+    public static String getDefaultDepHeadPrefix() {
+        return DEFAULT_DEP_HEAD_PREFIX;
     }
 }
