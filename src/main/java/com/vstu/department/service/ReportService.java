@@ -43,7 +43,7 @@ public class ReportService {
     private static final String XLSX_HEADER = "application/vnd.ms-excel";
 
     private static final String STUDY = "Учеба", SCIENCE = "Наука", OTHER = "Другое", GENERAL = "Общее", FIO = "ФИО",
-            SCORE = "БАЛЛ", FONT_NAME = "Times New Roman";
+            SCORE = "БАЛЛ", FONT_NAME = "Times New Roman", POSITION = "Должность";
 
     private static final int COLUMN_FIO_WIDTH = 6000, FONT_HEIGHT = 12;
 
@@ -65,6 +65,7 @@ public class ReportService {
                     .header("content-type", XLSX_HEADER).body(new UrlResource(tempFile.toURI()));
         }
     }
+
     public ResponseEntity<Resource> generateDepHeadReport(String halfYear) throws IOException {
         File tempFile = TempFile.createTempFile("poi-sxssf-template", ".xlsx");
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -163,10 +164,77 @@ public class ReportService {
                 }
             });
         });
+
+        XSSFSheet sheet = workbook.createSheet("strangeInfo");
+        addHeaderForStrangeInfo(workbook, sheet);
+        //departments.put("strangeInfo", sheet);
+        //departments.forEach((k, v) -> {
+        statisticsDTOStudy.forEach(currDTO -> {
+            addStringsToStrangeTable(workbook, sheet, currDTO, ParameterGroupType.STUDY);
+        });
+        statisticsDTOScience.forEach(currDTO -> {
+            addStringsToStrangeTable(workbook, sheet, currDTO, ParameterGroupType.SCIENCE);
+        });
+        statisticsDTOOther.forEach(currDTO -> {
+            addStringsToStrangeTable(workbook, sheet, currDTO, ParameterGroupType.OTHER);
+        });
+        statisticsDTOAll.forEach(currDTO -> {
+            addStringsToStrangeTable(workbook, sheet, currDTO, null);
+        });
+        //});
+
+    }
+
+    private void addHeaderForStrangeInfo(XSSFWorkbook workbook, XSSFSheet sheet) {
+        XSSFRow tableNameRow = sheet.createRow(0);
+        tableNameRow.createCell(0).setCellValue(STUDY);
+        tableNameRow.createCell(4).setCellValue(SCIENCE);
+        tableNameRow.createCell(8).setCellValue(OTHER);
+        tableNameRow.createCell(12).setCellValue(GENERAL);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 7, 8));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 12, 13));
+        XSSFRow columnNameRow = sheet.createRow(1);
+        for (int i = 0, j = 1, k = 2; i <= 12; k = (j = (i = i + 4) + 1) + 1) {
+            XSSFCell fioCell = columnNameRow.createCell(i);
+            fioCell.setCellValue(FIO);
+            fioCell.setCellStyle(createStyle(workbook));
+            sheet.setColumnWidth(i, COLUMN_FIO_WIDTH);
+
+            XSSFCell positionCell = columnNameRow.createCell(j);
+            positionCell.setCellValue(POSITION);
+            positionCell.setCellStyle(createStyle(workbook));
+            sheet.setColumnWidth(j, COLUMN_FIO_WIDTH);
+
+            XSSFCell scoreCell = columnNameRow.createCell(k);
+            scoreCell.setCellValue(SCORE);
+            scoreCell.setCellStyle(createStyle(workbook));
+        }
+    }
+
+    private void addStringsToStrangeTable(XSSFWorkbook workbook, XSSFSheet sheet, EmployeeStatisticsDTO dto,
+                                          ParameterGroupType type) {
+        int columnNumber = type == ParameterGroupType.STUDY ? 0
+                : type == ParameterGroupType.SCIENCE ? 4 : type == ParameterGroupType.OTHER ? 8 : 12;
+        XSSFRow row = findFreeRow(sheet, columnNumber);
+        XSSFCell fioCell = row.createCell(columnNumber);
+        fioCell.setCellValue(employeeRepository.findByTabel(dto.getTabel())
+                .orElseThrow(() -> new BusinessEntityNotFoundException("Tabel not found")).getFio());
+        fioCell.setCellStyle(createStyle(workbook));
+
+        XSSFCell positionCell = row.createCell(columnNumber + 1);
+        positionCell.setCellValue(String.valueOf(employeeRepository.findByTabel(dto.getTabel())
+                .orElseThrow(() -> new BusinessEntityNotFoundException("Tabel not found")).getPosition().getName()));
+        positionCell.setCellStyle(createStyle(workbook));
+
+        XSSFCell scoreCell = row.createCell(columnNumber + 2);
+        scoreCell.setCellValue(dto.getFullSum());
+        scoreCell.setCellStyle(createStyle(workbook));
     }
 
     private void addStringsToTable(XSSFWorkbook workbook, XSSFSheet sheet, EmployeeStatisticsDTO dto,
-            ParameterGroupType type) {
+                                   ParameterGroupType type) {
         int columnNumber = type == ParameterGroupType.STUDY ? 0
                 : type == ParameterGroupType.SCIENCE ? 3 : type == ParameterGroupType.OTHER ? 6 : 9;
         XSSFRow row = findFreeRow(sheet, columnNumber);
