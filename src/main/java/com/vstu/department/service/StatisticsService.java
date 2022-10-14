@@ -46,6 +46,25 @@ public class StatisticsService {
         return stats;
     }
 
+    public List<EmployeeStatisticsDTO> getEmployeeParameterStats(String headTabel, Long parameterId, String halfYear) {
+        final List<String> halfYears = new ArrayList<>(Arrays.asList(halfYear.split(",")));
+        final List<String> tabels = stubService.getEmployeeByHeadTabel(headTabel).stream().map(EmployeeDTO::getTabel)
+                .collect(Collectors.toList());
+        final Map<String, List<EmployeeParameter>> parameters = parameterService.getParametersBySearch(parameterId, halfYears,
+                tabels);
+
+        List<EmployeeStatisticsDTO> emps = new ArrayList<>();
+
+        for (Map.Entry<String, List<EmployeeParameter>> entry : parameters.entrySet()) {
+            EmployeeStatisticsDTO empStats = new EmployeeStatisticsDTO(entry.getKey());
+            entry.getValue().forEach(param -> empStats.addParam(param.getParameter().getId(),
+                    param.getParameter().getName(), param.getCount() * param.getCoefficient()));
+            emps.add(empStats);
+        }
+        emps.sort((a, b) -> b.getFullSum().compareTo(a.getFullSum()));
+        return emps;
+    }
+
     public List<GeneralEmployeStatisticsDTO> getEmployeeGeneralStatistics(String department, String halfYear) {
         final List<String> halfYears = new ArrayList<>(Arrays.asList(halfYear.split(",")));
         final List<String> tabels = stubService.getEmployeeByHeadTabel(department).stream().map(EmployeeDTO::getTabel)

@@ -41,6 +41,7 @@ public class StatisticsController {
     @PreAuthorize("hasAnyRole('DEP_HEAD', 'VICE-RECTOR')")
     public List<GeneralEmployeStatisticsDTO> getGeneralStatistics(@RequestParam String halfYear,
             @RequestParam(required = false) String department) {
+
         String tabelHead = (String) UtilService.getFieldFromAuthentificationDetails("tabel");
         if (tabelHead.startsWith(UtilService.getDefaultViceRectorPrefix())) {
             tabelHead = Strings.isEmpty(department) ? UtilService.getDefaultViceRectorPrefix() : department;

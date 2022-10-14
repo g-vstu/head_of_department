@@ -42,7 +42,7 @@ public class ReportService {
 
     private static final String XLSX_HEADER = "application/vnd.ms-excel";
 
-    private static final String STUDY = "Учеба", SCIENCE = "Наука", OTHER = "Другое", GENERAL = "Общее", FIO = "ФИО",
+    private static final String STUDY = "Обучение", SCIENCE = "Наука", OTHER = "Другое", GENERAL = "Общее", FIO = "ФИО",
             SCORE = "БАЛЛ", FONT_NAME = "Times New Roman", POSITION = "Должность";
 
     private static final int COLUMN_FIO_WIDTH = 6000, FONT_HEIGHT = 12;
@@ -79,27 +79,7 @@ public class ReportService {
         }
     }
 
-    private void addHeader(XSSFWorkbook workbook, XSSFSheet sheet) {
-        XSSFRow tableNameRow = sheet.createRow(0);
-        tableNameRow.createCell(0).setCellValue(STUDY);
-        tableNameRow.createCell(3).setCellValue(SCIENCE);
-        tableNameRow.createCell(6).setCellValue(OTHER);
-        tableNameRow.createCell(9).setCellValue(GENERAL);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 6, 7));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 9, 10));
-        XSSFRow columnNameRow = sheet.createRow(1);
-        for (int i = 0, j = 1; i <= 10; j = (i = i + 3) + 1) {
-            XSSFCell fioCell = columnNameRow.createCell(i);
-            fioCell.setCellValue(FIO);
-            fioCell.setCellStyle(createStyle(workbook));
-            sheet.setColumnWidth(i, COLUMN_FIO_WIDTH);
-            XSSFCell scoreCell = columnNameRow.createCell(j);
-            scoreCell.setCellValue(SCORE);
-            scoreCell.setCellStyle(createStyle(workbook));
-        }
-    }
+
 
     private void createAndFillSheets(XSSFWorkbook workbook, String halfYear) {
 
@@ -165,7 +145,7 @@ public class ReportService {
             });
         });
 
-        XSSFSheet sheet = workbook.createSheet("strangeInfo");
+        XSSFSheet sheet = workbook.createSheet("Итоговая");
         addHeaderForStrangeInfo(workbook, sheet);
         //departments.put("strangeInfo", sheet);
         //departments.forEach((k, v) -> {
@@ -185,16 +165,38 @@ public class ReportService {
 
     }
 
+    private void addHeader(XSSFWorkbook workbook, XSSFSheet sheet) {
+        XSSFRow tableNameRow = sheet.createRow(0);
+        tableNameRow.createCell(0).setCellValue(STUDY);
+        tableNameRow.createCell(3).setCellValue(SCIENCE);
+        tableNameRow.createCell(6).setCellValue(OTHER);
+        tableNameRow.createCell(9).setCellValue(GENERAL);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 6, 7));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 9, 10));
+        XSSFRow columnNameRow = sheet.createRow(1);
+        for (int i = 0, j = 1; i <= 10; j = (i = i + 3) + 1) {
+            XSSFCell fioCell = columnNameRow.createCell(i);
+            fioCell.setCellValue(FIO);
+            fioCell.setCellStyle(createStyle(workbook));
+            sheet.setColumnWidth(i, COLUMN_FIO_WIDTH);
+            XSSFCell scoreCell = columnNameRow.createCell(j);
+            scoreCell.setCellValue(SCORE);
+            scoreCell.setCellStyle(createStyle(workbook));
+        }
+    }
+
     private void addHeaderForStrangeInfo(XSSFWorkbook workbook, XSSFSheet sheet) {
         XSSFRow tableNameRow = sheet.createRow(0);
         tableNameRow.createCell(0).setCellValue(STUDY);
         tableNameRow.createCell(4).setCellValue(SCIENCE);
         tableNameRow.createCell(8).setCellValue(OTHER);
         tableNameRow.createCell(12).setCellValue(GENERAL);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 7, 8));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 12, 13));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 4, 6));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 8, 10));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 12, 14));
         XSSFRow columnNameRow = sheet.createRow(1);
         for (int i = 0, j = 1, k = 2; i <= 12; k = (j = (i = i + 4) + 1) + 1) {
             XSSFCell fioCell = columnNameRow.createCell(i);

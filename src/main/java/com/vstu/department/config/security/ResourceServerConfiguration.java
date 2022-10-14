@@ -27,7 +27,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Override
     public void configure(ResourceServerSecurityConfigurer config) {
-        config.tokenServices(tokenServices()).resourceId("head-department");
+        config.tokenServices(tokenServices()).resourceId("head_department");
     }
 
     @Bean

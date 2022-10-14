@@ -1,14 +1,17 @@
 package com.vstu.department;
 
 import com.vstu.department.config.security.CustomTokenConverter;
+import com.vstu.department.service.ExcelDepartmentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
+@EnableEurekaClient
 @SpringBootApplication
 @RequiredArgsConstructor
 public class DepartmentApplication {
@@ -20,7 +23,7 @@ public class DepartmentApplication {
     }
 
     @PostConstruct
-    public void replaceDefaultConverter() {
+    public void replaceDefaultConverter() throws IOException {
         JwtAccessTokenConverter jwtAccessTokenConverterBean = applicationContext.getBean(JwtAccessTokenConverter.class);
         jwtAccessTokenConverterBean.setAccessTokenConverter(new CustomTokenConverter());
     }

@@ -50,6 +50,12 @@ public class EmployeeParameterService {
         return result;
     }
 
+    public Map<String, List<EmployeeParameter>> getParametersBySearch(Long parameterId, List<String> halfYears, List<String> tabels) {
+        final Map<String, List<EmployeeParameter>> result = new HashMap<>();
+        tabels.forEach(tabel -> result.put(tabel, repository.getParametersBySearch(parameterId, halfYears, tabel)));
+        return result;
+    }
+
     public List<GeneralEmployeStatisticsDTO> getGeneralStatistics(List<String> halfYears, List<String> tabels) {
         List<GeneralEmployeStatisticsDTO> generalEmployeStatisticsDTOS = new ArrayList<>();
         tabels.stream().forEach(tabel -> generalEmployeStatisticsDTOS.add(

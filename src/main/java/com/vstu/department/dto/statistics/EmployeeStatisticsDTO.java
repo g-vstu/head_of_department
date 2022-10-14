@@ -23,7 +23,9 @@ public class EmployeeStatisticsDTO {
 
     public void addParam(Long parameterId, String parameterName, Double sum) {
         this.params.add(new IncludeEmployeeParameterStats(parameterId, parameterName, sum));
-        this.fullSum += sum;
+        if (parameterId > 0) {
+            this.fullSum += sum;
+        }
     }
 
     public EmployeeStatisticsDTO(String tabel, Double fullSum) {
@@ -34,7 +36,7 @@ public class EmployeeStatisticsDTO {
 
     @Data
     @AllArgsConstructor
-    private class IncludeEmployeeParameterStats {
+    public class IncludeEmployeeParameterStats {
 
         private Long parameterId;
 

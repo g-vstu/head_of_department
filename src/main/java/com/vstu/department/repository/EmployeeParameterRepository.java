@@ -40,4 +40,10 @@ public interface EmployeeParameterRepository extends JpaRepository<EmployeeParam
             "WHERE a.tabel = :tabel AND a.halfYear = :halfYears GROUP BY ep.parameter.id")
     List<GeneralEmployeeStatisticsParamsDTO> getSummEmployeeParametersByAnketaTabelAndAnketaHalfYears(@Param("tabel") String tabel, @Param("halfYears") List<String> halfYears);
 
+    @Query("SELECT ep FROM EmployeeParameter ep WHERE ep.parameter.id = :parameterId " +
+            "AND ep.anketa.halfYear IN :halfYears " +
+            "AND ep.anketa.tabel = :tabel")
+    List<EmployeeParameter> getParametersBySearch(@Param("parameterId") Long parameterId,
+                                                  @Param("halfYears") List<String> halfYears,
+                                                  @Param("tabel") String tabels);
 }
