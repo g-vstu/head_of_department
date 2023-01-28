@@ -1,8 +1,8 @@
 server:
-  port: 8006
+  port: 8009
 spring:
   cloud:
     config:
       uri: http://localhost:8000
   application:
-    name: department-head-service
+    name: head_of_department_service

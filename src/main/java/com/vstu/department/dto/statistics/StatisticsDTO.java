@@ -15,4 +15,16 @@ public class StatisticsDTO {
     public StatisticsDTO(ParameterGroupType type) {
         this.groupType = type;
     }
+
+    public StatisticsDTO(ParameterGroupType groupType, List<EmployeeStatisticsDTO> userStatistics) {
+        this.groupType = groupType;
+        this.userStatistics = userStatistics;
+    }
+
+    public StatisticsDTO(List<EmployeeStatisticsDTO> userStatistics) {
+        this.userStatistics = userStatistics;
+    }
+
+    public StatisticsDTO() {
+    }
 }

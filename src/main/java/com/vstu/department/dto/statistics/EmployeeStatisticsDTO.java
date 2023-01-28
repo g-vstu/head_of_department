@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+//@AllArgsConstructor
 public class EmployeeStatisticsDTO {
 
     private String tabel;
@@ -35,13 +35,30 @@ public class EmployeeStatisticsDTO {
     }
 
     @Data
-    @AllArgsConstructor
-    public class IncludeEmployeeParameterStats {
+    public static class IncludeEmployeeParameterStats {
 
         private Long parameterId;
 
         private String parameterName;
 
         private Double sum;
+
+        public IncludeEmployeeParameterStats(Long parameterId, String parameterName, Double sum) {
+            this.parameterId = parameterId;
+            this.parameterName = parameterName;
+            this.sum = sum;
+        }
+
+        public IncludeEmployeeParameterStats() {
+        }
+    }
+
+    public EmployeeStatisticsDTO(String tabel, List<IncludeEmployeeParameterStats> params, Double fullSum) {
+        this.tabel = tabel;
+        this.params = params;
+        this.fullSum = fullSum;
+    }
+
+    public EmployeeStatisticsDTO() {
     }
 }

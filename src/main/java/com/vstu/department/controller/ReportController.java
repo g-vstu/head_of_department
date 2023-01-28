@@ -39,16 +39,9 @@ public class ReportController {
         return reportService.generateViceRectorReport(halfYear);
     }
 
-//    @GetMapping("/forDepHead")
-//    @PreAuthorize("hasRole('DEP_HEAD')")
-//    public @ResponseBody ResponseEntity<Resource> generateDepHeadReport(@RequestParam String halfYear)
-//            throws IOException {
-//        return reportService.generateDepHeadReport(halfYear);
-//    }
-
     //Измененный
-    @GetMapping("/forDepHead")
-    @PreAuthorize("hasRole('DEP_HEAD')")
+    @GetMapping("/onlyDepHeader")
+    @PreAuthorize("hasAnyRole('VICE-RECTOR', 'ADMIN')")
     public @ResponseBody
     ResponseEntity<Resource> generateDepHeadReport(@RequestParam String halfYear)
             throws IOException {
